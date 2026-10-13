@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explore a ticket"
+  short_description: "Connect code, design, and architecture before implementation"
+  default_prompt: "Use $explorer to prepare implementation context for this ticket without changing files."

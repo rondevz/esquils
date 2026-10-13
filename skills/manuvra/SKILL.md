@@ -1,0 +1,204 @@
+---
+name: manuvra
+description: "Run an application journey in a dedicated Chromium with Manuvra and return evidence-backed UI validation. Use to execute a browser flow from a URL, recover or resume a Manuvra run, inspect its evidence, or prove a browser-visible change against an isolated fixture. Not for general browsing, scraping, or production data."
+license: MIT
+---
+
+# Manuvra
+
+Manuvra is a local browser-flow executor for coding agents. Give its CLI a versioned JSON **job** containing a start URL, ordered goals, caller-supplied values, completion conditions, and final expectations. It drives one dedicated Chromium, gates mutations, stops when it cannot continue safely, and returns one JSON result plus a manifest of screenshots and machine-readable evidence.
+
+Use Manuvra against an isolated application fixture with synthetic data. You own the application process, fixture reset, authorization for its effects, persistence inspection, and cleanup. Manuvra owns only its Chromium and browser evidence. A Manuvra `passed` result proves the recorded browser journey. Combine it with an application-owned persistence check before claiming the product behavior passed.
+
+## 1. Establish the run boundary
+
+Confirm that the CLI and its live contract are available:
+
+```bash
+command -v manuvra
+manuvra version
+manuvra schema job > /tmp/manuvra-job-schema.json
+manuvra schema result > /tmp/manuvra-result-schema.json
+manuvra schema disposition > /tmp/manuvra-disposition-schema.json
+manuvra schema manifest > /tmp/manuvra-manifest-schema.json
+```
+
+If `manuvra` is missing while working in its source checkout, install it with `cargo install --path crates/manuvra-cli --locked`. Otherwise report that the CLI is unavailable. Confirm `TYPESAFE_API_KEY` is present without printing it. On Linux, locate Chromium with `command -v chromium || command -v chromium-browser || command -v google-chrome`. On macOS, Manuvra also discovers the directly executable Google Chrome or Chromium binary inside `/Applications` and `~/Applications` app bundles. You can later pass an explicit executable with `--browser`; on macOS name the inner binary, such as `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`, rather than the `.app` directory.
+
+Launch or reset a disposable application fixture and record:
+
+- the exact commit or build identity being exercised;
+- its start URL and exact allowed origin (`scheme://host[:port]`);
+- the synthetic actor and the effects this run is authorized to create;
+- an application-owned query that will prove the expected persisted state and expose duplicates.
+
+This stage is complete when the fixture is reachable, its revision is independently known, the allowed effects are bounded, and a persistence check is ready.
+
+## 2. Author one job
+
+Start from this shape and replace the illustrative labels and claims with the application's visible language:
+
+```json
+{
+  "schema_version": 1,
+  "target": {"kind": "browser", "url": "http://127.0.0.1:4351/"},
+  "context": {
+    "journey": "Create one synthetic account",
+    "revision": "<tested commit or build id>",
+    "environment": "fresh disposable fixture",
+    "actor": "synthetic owner",
+    "authority": "create one synthetic account in this fixture"
+  },
+  "values": {
+    "account_name": {
+      "value": "Agent validation wallet 7f3a",
+      "description": "Unique name for the synthetic account"
+    }
+  },
+  "steps": [
+    {
+      "id": "open",
+      "goal": "Open the account creation dialog.",
+      "done_when": [{"dialog_open": "Create account"}]
+    },
+    {
+      "id": "name",
+      "goal": "Fill Account name with account_name.",
+      "requires_values": ["account_name"],
+      "done_when": [{"field": "Account name", "equals_value": "account_name"}]
+    },
+    {
+      "id": "submit",
+      "goal": "Submit Create account.",
+      "done_when": [
+        {"dialog_closed": "Create account"},
+        {"text_visible": "Agent validation wallet 7f3a"}
+      ]
+    }
+  ],
+  "expectations": [
+    {
+      "id": "account-visible",
+      "claim": "The final page shows the Agent validation wallet 7f3a account."
+    }
+  ],
+  "options": {
+    "allowed_origins": ["http://127.0.0.1:4351"]
+  }
+}
+```
+
+Authoring rules:
+
+- Write goals and natural-language conditions in English. Make each step one observable UI transition. Opening a chooser and selecting an option are separate steps.
+- Start a keyboard goal with `Press `, such as `Press Escape to close the breakdown popover`, `Press Tab to focus Save`, or `Press Enter to activate Save`. The supported keys are Escape, Tab, Shift+Tab, Enter, Space, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Home, and End. A key press is a mutation; set the step's `mutation_limit` (default 1, maximum 8) high enough for every press in the step, or split the journey into steps with separate done conditions.
+- Describe intent in `goal` and the resulting state in `done_when`. A list of assertions is a conjunction. Prefer the structured forms `text_visible`, `text_absent`, `field` + `nonempty`, `field` + `equals_value`, `focused`, `dialog_open`, `dialog_closed`, and `url_contains`. `{"focused":"Save"}` requires that element to have focus; add `role` or `dialog` to distinguish repeated names. Use a natural-language string only when those forms cannot express the condition.
+- Match field and dialog names to visible accessible labels. Manuvra requires one unambiguous visible match. Use a field's optional `dialog` or `role`, or a text assertion's `scope`, when the page repeats a label.
+- For painted `aria-hidden` text, add `"include_aria_hidden":true` to `text_visible` or `text_absent` in structured `done_when` or final expectations, for example `{"text_visible":"$0.00","include_aria_hidden":true,"scope":{"dialog":"Month details"}}`. Text uses case-sensitive substring matching with text-node whitespace normalized; accessible names alone do not count. Channels are searched separately, and `assertion_checks` records `searched_channels` and nullable `matched_channel`, preferring `accessible` over `painted_aria_hidden` when both match.
+- Text checks preserve their defaults when the flag is omitted or false. Default dialog checks use legacy `dialog_text`, which can include inert text; the explicit opt-in excludes inert, hidden, zero-opacity, zero-alpha, fully clipped, and offscreen text even inside dialogs. A retained painted match proves presence, but a missing match cannot prove absence when inventories are missing, truncated, or incomplete. Natural-language conditions and numeric-literal checks retain their existing behavior.
+- Put every literal to be entered in `values` under a stable semantic name. Refer to that name from `requires_values` and `equals_value`. Keep the literal in `values`. Mark credentials or sensitive values with `"secret": true`, and list other values requiring evidence redaction in `options.redact_values`.
+- Keep jobs containing classified values outside the repository in a caller-owned file with mode `0600`.
+- Use unique synthetic values so persistence queries can distinguish this run. Bound browser navigation with `options.allowed_origins`.
+- Use `expectations` for the final visible outcome. Prefer `{"id":"negative-color","assertions":[{"color":{"target":{"text":"-$12.34"},"equals":"#b91c1c"}}]}` when code can prove it. Structured expectations accept the same conjunctions as `done_when`, including existing assertions. For natural claims, supply `claim` with optional `exact_literals` and `within_text`; the two forms are mutually exclusive.
+- For foreground color, choose one exact text segment with `target.text`, or one indexed control with `target.name` and optional `role`. Whitespace is normalized for text; names are case-insensitive. Qualify either target with `dialog` or `container` when needed; owners and scopes must be unique. Painted `aria-hidden` text can be checked directly and evidence records its channel. A named parent checks its own style, so target a differently styled child by its exact text.
+- Choose exactly one comparator: `equals` with `#RRGGBB` or `#RRGGBBAA`, `same_as` with another target, or `different_from` with another target. Optional integer `tolerance` (0–255, default 0) bounds the maximum straight sRGB RGBA channel difference, including alpha. Relative references follow the same resolution rules. Inspect raw computed and canonical values in `assertion_checks`.
+- Keep color targets painted in the current viewport. Hidden, zero-opacity, zero-alpha, inert, offscreen, clipped, or split text cannot establish the requested color; ambiguous owners/scopes and incomplete or unsupported observations remain unresolved. Structured-only final checks use no provider calls or model budget. A false structured check short-circuits natural verification. Unknown structured checks permit retry observation or abort; `advance` can attest only uncertain natural claims while fresh structured checks are satisfied.
+
+Treat `manuvra schema job` as authoritative for optional fields, limits, and assertion shapes. Job authoring is complete when every named value reference exists, every step has an observable postcondition, final expectations describe the required visible outcome, and the context states the exact candidate and authority.
+
+## 3. Start the run
+
+Choose a new request id for this invocation and a caller-owned evidence root. Capture stdout as one JSON object even when the process exits nonzero:
+
+```bash
+request_id="journey-$(date +%s)-$RANDOM"
+job="/absolute/path/to/job.json"
+evidence_root="/absolute/path/to/evidence"
+result="/tmp/$request_id-result.json"
+
+if manuvra run \
+  --request-id "$request_id" \
+  --job "$job" \
+  --evidence "$evidence_root" \
+  --wait-ms 30000 > "$result"
+then
+  exit_code=0
+else
+  exit_code=$?
+fi
+
+jq . "$result"
+run_id=$(jq -r '.run_id' "$result")
+```
+
+Add `--headless` only when a visible browser is unnecessary. Add `--browser /absolute/path/to/chromium` when discovery cannot find the intended executable. On macOS, pass the executable inside the app bundle, not the `.app` directory and not an `open` command.
+
+The JSON result is authoritative. The exit code only classifies it. Starting is complete when the result is valid JSON and contains `request_id`, `run_id`, `state`, and `terminal`.
+
+## 4. Drive the run to a terminal result
+
+Branch on `state`:
+
+- `running`: wait on the same run with `manuvra status "$run_id" --wait-ms 30000 > "$result"`.
+- `uncertain`: inspect `escalation.payload` and the snapshot, screenshot, recent actions, and candidates it references. Choose only a kind listed in `escalation.dispositions`.
+- `passed`, `failed`, `blocked`, `aborted`, or `expired`: the run is terminal. Continue to evidence validation.
+
+After lost stdout, recover the existing run with `manuvra status --request-id "$request_id"`. Reuse a request id only to recover that exact invocation. Give every new `resume` or `abort` invocation its own request id.
+
+For an uncertain run, create a disposition matching `manuvra schema disposition`:
+
+- `execute`: use the exact offered `candidate_id` only when its operation, target, value, or key and focus anchor still express the intended step. For `PRESS_KEY`, inspect the offered key and focus anchor; Manuvra rechecks the focus before dispatch. An uncertain key outcome offers no `execute` disposition.
+- `advance`: include a concrete `rationale` and use it only when offered for an uncertain natural-language condition or final claim that the evidence visibly establishes.
+- `retry_observation`: use when fresher browser evidence can resolve the uncertainty.
+- `abort`: use when authority, intent, or safe continuation is absent.
+
+When an offered candidate carries `target_container`, use that container label to distinguish controls with the same name before choosing `execute`.
+
+A `target_below_gate` escalation offers `retry_observation` and `abort`, with resolved contenders and no candidate to execute. Inspect the contenders; retry the observation, or abort and start a job with a clearer step. Caller authority cannot replace an ambiguous target.
+
+A `click_target_unavailable` escalation means none of the listed controls matched the requested item. It offers only retry observation or abort; inspect the snapshot and clarify or navigate to the item before another job.
+
+An offered `HOVER` candidate names a hover region in `hover_target.name` and the chosen control in `hover_target.reveal`; `hover_target.reveals_on_hover` lists all controls in that region. Execute it when the chosen control is the one the step needs. The hover only reveals those controls; Manuvra then continues the step on its own.
+
+Example `execute` disposition:
+
+```json
+{
+  "schema_version": 1,
+  "escalation_id": "<result.escalation.id>",
+  "disposition": {
+    "kind": "execute",
+    "candidate_id": "<candidate id from the escalation payload>"
+  }
+}
+```
+
+Submit it and capture the next checkpoint:
+
+```bash
+manuvra resume "$run_id" \
+  --request-id "$resume_request_id" \
+  --input "$disposition_file" > "$result"
+```
+
+Capture nonzero exit codes from `status` and `resume` in the same way as `run`. They classify the JSON checkpoint rather than replacing it. If authority is withdrawn before the run becomes terminal, stop it with `manuvra abort "$run_id" --request-id "$abort_request_id"`.
+
+Repeat status and disposition handling until `terminal` is `true`. A disposition supplies bounded caller authority. Manuvra still re-observes and enforces target freshness, origin, budgets, replay guards, and code-owned verification.
+
+## 5. Validate evidence and product state
+
+Read the terminal JSON and the manifest at `evidence.manifest`.
+
+For a successful Manuvra run, require all of the following:
+
+- `state` is `passed`, `terminal` is `true`, and `verdict.overall` is `satisfied`;
+- `evidence.complete` and the manifest's `complete` are `true`;
+- every manifest artifact marked complete exists at its absolute path and its SHA-256 equals `digest`;
+- the normalized job, provenance, observations, action trace, step facts, final verification, and cleanup agree with the result;
+- any escalation and disposition remain visible, and `verdict.caller_assisted` truthfully reports assistance.
+
+For any other terminal state, preserve `reason`, the first divergence or escalation, and the last trustworthy observation. Report the run as stopped rather than rerunning it away.
+
+Query the application's own persistence seam after the browser run. Record the exact matching entities and counts, including zero unexpected duplicates, then clean up the fixture. The task is complete only when the report identifies the tested revision and binary, job and terminal result, manifest integrity, visible outcome, persistence facts, caller assistance, and cleanup. If a Product Validator consumes the run, give it those facts and let it independently return Pass, Fail, or Inconclusive.
+
+Exit codes are `0` passed, `2` uncertain, `3` blocked, `4` failed, `5` aborted or expired, `6` running, `64` invalid input or request conflict, and `70` internal failure without a recoverable result.

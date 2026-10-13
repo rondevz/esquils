@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inspect a ticket"
+  short_description: "Verify ticket claims against code before implementation"
+  default_prompt: "Use $inspect to verify this ticket against the current code and report findings without making changes."

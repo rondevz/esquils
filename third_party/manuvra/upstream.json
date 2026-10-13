@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/taecontrol/manuvra",
+  "revision": "0bbd1cf1489320736d525260a98f1cd2b6356519",
+  "imported_paths": [
+    "skills/manuvra/"
+  ],
+  "license_path": "third_party/manuvra/LICENSE",
+  "files": {
+    "skills/manuvra/SKILL.md": "23631880f582241cde25b2ff1ba129d7f9fe7f861c1ca62cbb60d29541cad662"
+  }
+}

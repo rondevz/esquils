@@ -1,0 +1,4 @@
+interface:
+  display_name: "Super Setup"
+  short_description: "Set up Esquils using Matt Pocock’s existing setup"
+  default_prompt: "Use $super-setup to configure this project for the Esquils workflow."
