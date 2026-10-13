@@ -1,6 +1,8 @@
 # Esquils
 
-A skills repository for a workflow built on Matt Pocock's skills, with focused additions for shared design, reuse, and consistency across deliveries. The complete Matt catalog is bundled here rather than required from a separate installation.
+Esquils is an experimental collection of skills for AI coding agents. The name is simply a playful Spanish take on the word “skills.” Built on Matt Pocock's skills, it explores how to connect product decisions, design, code exploration, implementation, and verification into a more consistent development workflow.
+
+Everything here is a work in progress. All skills, including those imported from other projects, are subject to changes and modifications as the workflow evolves through real use.
 
 ## Global installation for local development
 
