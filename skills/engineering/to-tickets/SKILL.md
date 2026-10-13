@@ -16,6 +16,8 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 Work from whatever is already in the conversation context. If the user passes a reference (a spec path, an issue number or URL) as an argument, fetch it and read its full body and comments.
 
+Read the spec's governing architecture brief and selected design references when present. Give each affected ticket pointers to the shared decisions it must preserve. Include design dependencies where one delivery establishes a shared contract or pattern needed by another. If a known shared decision is still proposed or blocked, return it to design rather than declaring its dependent tickets ready.
+
 ### 2. Explore the codebase (optional)
 
 If you have not already explored the codebase, do so to understand the current state of the code. Ticket titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
@@ -78,6 +80,8 @@ Do NOT close or modify any parent issue.
 
 **Status:** ready-for-agent
 
+**Design references:** governing architecture decisions and selected interaction design, when applicable.
+
 - [ ] Acceptance criterion 1
 - [ ] Acceptance criterion 2
 
@@ -95,6 +99,10 @@ A reference to the parent issue on the tracker (if the source was an existing is
 
 The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
 
+## Design references
+
+Pointers to applicable agreed architecture decisions and selected interaction design. Omit when not applicable.
+
 ## Acceptance criteria
 
 - [ ] Criterion 1
@@ -110,4 +118,4 @@ Applicable spec flows, starting state, actions, expected results, and test / pro
 
 </issue-template>
 
-In either form, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
+In either form, avoid prescribing specific implementation file paths or code snippets: they go stale fast. Preserve exact links to governing architecture and design artifacts. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.

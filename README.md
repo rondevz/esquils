@@ -26,10 +26,12 @@ The script links this checkout directly for the three agents, preserving existin
 
 Start with [super-setup](skills/super-setup/SKILL.md) in your target project.
 
-- **Define a feature:** inspect → clarify → design and architecture → spec → tickets.
+- **Define a feature:** inspect → grill → architect ↔ design/prototype → spec → tickets.
 - **Implement a ticket:** explorer → implementation → agreed acceptance flows → review → commit and push.
 
 [inspect](skills/inspect/SKILL.md) checks assumptions against code. [implement](skills/engineering/implement/SKILL.md) runs [explorer](skills/explorer/SKILL.md) internally to gather context and reuse existing patterns. Prototype when it helps resolve a design question, and agree on acceptance flows before implementation.
+
+[architect](skills/architect/SKILL.md), adapted from TaeControl, analyzes the context, recommends a coherent architecture, and resolves consequential choices with you before implementation. It can recommend extending the existing structure and revisits interaction design when necessary.
 
 Browse the [skills](skills/) for details. Source revisions, licenses, and local adaptations are recorded in [UPSTREAM.md](UPSTREAM.md).
 

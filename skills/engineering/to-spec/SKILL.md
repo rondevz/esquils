@@ -12,6 +12,8 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
 
+When architect has produced a brief, read its agreed decisions and the selected interaction-design references before synthesis. Carry shared responsibilities, contracts, protected behavior, and verification obligations into the spec with pointers to their source. A proposed or blocked shared decision remains unresolved; return it to feature design instead of publishing dependent work as ready. Do not repeat questions already settled in the architecture discussion.
+
 2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
 
 Check with the user that these seams match their expectations.
@@ -54,7 +56,9 @@ A list of implementation decisions that were made. This can include:
 - API contracts
 - Specific interactions
 
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+- The agreed architecture brief and selected design references, with shared constraints implementation must preserve
+
+Avoid prescribing specific implementation file paths or code snippets; they can become outdated quickly. Exact links to governing architecture and design artifacts are context references and should be preserved.
 
 Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
 

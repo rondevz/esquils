@@ -14,8 +14,8 @@ Matt Pocock's copyright and MIT license are preserved in [third_party/mattpocock
 
 - `skills/engineering/implement/SKILL.md`: run explorer in the implementation checkout before edits, use agreed acceptance flows, verify real product behavior, and record delivery evidence according to project conventions. Review includes uncommitted changes. Delivery includes commit and push, preserving unrelated changes and reporting incomplete publication. The original TDD and code-review steps remain.
   Dependency lookup supports both the categorized source checkout and flat skills CLI installations.
-- `skills/engineering/to-spec/SKILL.md`: capture agreed acceptance flows, representative data, expected results, design references, and verification methods before implementation.
-- `skills/engineering/to-tickets/SKILL.md`: carry applicable acceptance flows and design references into ticket verification criteria.
+- `skills/engineering/to-spec/SKILL.md`: capture agreed acceptance flows, representative data, expected results, design references, and verification methods before implementation. Consume the agreed architecture brief and preserve its shared decisions; unresolved shared design does not become ready work.
+- `skills/engineering/to-tickets/SKILL.md`: carry applicable acceptance flows and design references into ticket verification criteria. Include governing architecture references and dependencies between shared contracts or patterns.
 - `skills/engineering/code-review/SKILL.md`: add explicit working-tree review, including staged, unstaged, and in-scope untracked files, plus initial repositories without a commit. Default committed review remains.
 
 ## Manuvra
@@ -23,3 +23,11 @@ Matt Pocock's copyright and MIT license are preserved in [third_party/mattpocock
 The complete `skills/manuvra/` directory from [taecontrol/manuvra](https://github.com/taecontrol/manuvra) was imported unchanged at commit `0bbd1cf1489320736d525260a98f1cd2b6356519`. At that revision, it contains one `SKILL.md` with inline procedures and no supporting skill files.
 
 Luis Güette's copyright and MIT license are preserved in [third_party/manuvra/LICENSE](third_party/manuvra/LICENSE). [The Manuvra manifest](third_party/manuvra/upstream.json) records the revision and original file hash. Importing the skill does not install the executable, provision an API key, or run paid judgments.
+
+## TaeControl Architect
+
+The complete `skills/engineering/architect/` directory from [taecontrol/skills](https://github.com/taecontrol/skills) was imported at commit `ae55f0c619c5204e3d738851ebcb27f396091a1d` and mapped to `skills/architect/`.
+
+The adaptation starts with contextual analysis and feature fit, includes shared reversible decisions when they affect multiple tickets, and leads an interactive recommendation process. Architecture and interaction design can iterate before the spec and tickets. Alternative comparison scales with uncertainty and impact rather than requiring independent agents for every decision. The implementation brief is a shared handoff; the skill stops before production work. Upstream deep-module design-quality criteria remain unchanged.
+
+Copyright and MIT license are preserved in [third_party/taecontrol/LICENSE](third_party/taecontrol/LICENSE). [The manifest](third_party/taecontrol/upstream.json) retains original source hashes and the path mapping; local edits are intentional and those hashes remain the import baseline.

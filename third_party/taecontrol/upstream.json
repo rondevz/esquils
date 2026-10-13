@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/taecontrol/skills",
+  "revision": "ae55f0c619c5204e3d738851ebcb27f396091a1d",
+  "imported_paths": [
+    "skills/engineering/architect/"
+  ],
+  "license_path": "third_party/taecontrol/LICENSE",
+  "files": {
+    "skills/architect/SKILL.md": "de437902c1589fc8f7668fcd5009c1fd812563b14c0ddcfa71c3d7009a70c82b",
+    "skills/architect/agents/openai.yaml": "c54f5db05431d9cc3990824d6136ef63c10c8fd27afed8c3b0aa10f5dad5e924",
+    "skills/architect/references/arena.md": "519168745eeaa8055c6faacad72d33457b13458deb0960cf244c2d15a9572372",
+    "skills/architect/references/deliverable.md": "183bf68d721def14031d204970aaeedb49795f52f3a2427eeb120bb0ceac658c",
+    "skills/architect/references/design-quality.md": "90bd1734c02d370bfaa804c98056a8383a8ce69334920db8f262ca4f93704a5c"
+  },
+  "path_mapping": {
+    "skills/engineering/architect/": "skills/architect/"
+  }
+}
