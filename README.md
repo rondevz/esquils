@@ -2,6 +2,8 @@
 
 Esquils is an experimental collection of skills for AI coding agents. The name is simply a playful Spanish take on the word “skills.” Built on Matt Pocock's skills, it explores how to connect product decisions, design, code exploration, implementation, and verification into a more consistent development workflow.
 
+It also draws on the TaeControl methodology by [guetteman](https://github.com/guetteman), using it as a reference while developing and testing its own workflow.
+
 Everything here is a work in progress. All skills, including those imported from other projects, are subject to changes and modifications as the workflow evolves through real use.
 
 ## Global installation for local development
@@ -80,3 +82,9 @@ Write skills and resources in English; user-facing communication follows the use
 Configure a target project with super-setup, inspect a real ticket, and try a small feature one ticket at a time. Check the integrated journey and consistency across views. For evaluating the main greenfield problem, follow with a small new project whose journeys share components and data.
 
 The initial define-feature and implement-ticket drafts remain removed. The current skills have not yet been tested on a real feature. Change the workflow based on observed gaps rather than adding mandatory stages in advance.
+
+## Inspiration and references
+
+- [Matt Pocock's skills](https://github.com/mattpocock/skills): the foundation for the engineering workflow and bundled skill catalog.
+- [TaeControl's skills](https://github.com/taecontrol/skills), by [guetteman](https://github.com/guetteman): a reference for product decisions, architecture, design, and verification.
+- [Manuvra](https://github.com/taecontrol/manuvra): browser journeys and evidence-based verification for coding agents.
