@@ -7,12 +7,20 @@ The goal is a more consistent workflow connecting product decisions, design, imp
 ## Install globally
 
 ```bash
+npx skills add rondevz/esquils -g --skill '*' --agent claude-code codex opencode
+```
+
+This installs the full catalog for the three agents. Use `--list` to browse it or `--skill <name>` to choose specific skills. External tools such as Manuvra require separate setup.
+
+## Develop locally
+
+```bash
 git clone https://github.com/rondevz/esquils.git ~/code/esquils
 cd ~/code/esquils
 python3 scripts/link-global-skills.py
 ```
 
-The script links this checkout's skills for Claude Code, Codex, and OpenCode, preserving existing entries. Edit them here to iterate; rerun it when adding skills. Open a new agent session if changes haven't appeared. External tools such as Manuvra require separate setup.
+The script links this checkout directly for the three agents, preserving existing entries. Use this mode to iterate without reinstalling; rerun it when adding skills. Open a new agent session if changes haven't appeared.
 
 ## Workflow
 

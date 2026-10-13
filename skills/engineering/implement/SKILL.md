@@ -6,11 +6,13 @@ disable-model-invocation: true
 
 Implement the work described by the user in the spec or tickets.
 
+Load dependent skills by name from the Esquils catalog when available. For direct reads, resolve this skill's actual directory, following symlinks. In a flat CLI installation, dependencies are at `../<skill-name>/SKILL.md`. In the source checkout, engineering dependencies are also siblings; `explorer` and `manuvra` are at `../../<skill-name>/SKILL.md`. Resolve each dependency's own resources from its actual directory. Report a missing required dependency rather than silently omitting its step.
+
 If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If the reference is ambiguous, ask.
 
 Record the initial checkout state and current HEAD when one exists, so review can distinguish this ticket's changes from pre-existing edits. For a new repository with no commits, note that review must use initial working-tree mode rather than a HEAD comparison.
 
-Before editing, run the bundled [explorer](../../explorer/SKILL.md) for this ticket in the implementation checkout. Use its governing decisions, reuse map, affected consumers, and verification map as the implementation context. Load the local skill through the harness when possible; otherwise read its instructions and follow them directly. An explorer report is preparation, not proof that the delivered behavior works.
+Before editing, run the bundled `explorer` for this ticket in the implementation checkout, using the lookup above. Use its governing decisions, reuse map, affected consumers, and verification map as the implementation context. Load the local skill through the harness when possible; otherwise read its instructions and follow them directly. An explorer report is preparation, not proof that the delivered behavior works.
 
 If the work is delegated, give the implementer the ticket, spec, agreed design and architecture references, and any inspection report. Require the implementer to run explorer in its own checkout; do not assume it inherits the parent's context. Delegation is optional and must be authorized.
 
@@ -24,7 +26,7 @@ Run typechecking regularly, single test files regularly, and the full test suite
 
 Exercise the agreed acceptance flows against the real product using the project's existing verification tools. For UI work, drive the relevant states and compare them with the chosen design and neighboring views. Check persistence with a reload or subsequent read when required. An agent-driven walkthrough provides observed evidence; it is not automatically a repeatable test suite. Do not introduce a new testing dependency without the user's choice.
 
-When the project's selected method is Manuvra and the runtime and harness allow it, follow the bundled [manuvra](../../manuvra/SKILL.md) skill. Use the agreed flows to author jobs, verify returned evidence, and check persistence through the application's own interface or data seam. Respect harness-specific browser-tool preferences. A missing executable or key is an execution gap, not a passing flow; do not silently install tooling or replace the selected provider.
+When the project's selected method is Manuvra and the runtime and harness allow it, follow the bundled `manuvra` skill using the lookup above. Use the agreed flows to author jobs, verify returned evidence, and check persistence through the application's own interface or data seam. Respect harness-specific browser-tool preferences. A missing executable or key is an execution gap, not a passing flow; do not silently install tooling or replace the selected provider.
 
 Record which flows passed, failed, or could not run, with concrete evidence. Fix in-scope failures and rerun affected checks after the final edit. If a required flow cannot be verified, report the gap rather than marking the ticket verified or complete.
 

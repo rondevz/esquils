@@ -13,6 +13,7 @@ Matt Pocock's copyright and MIT license are preserved in [third_party/mattpocock
 ## Local adaptations
 
 - `skills/engineering/implement/SKILL.md`: run explorer in the implementation checkout before edits, use agreed acceptance flows, verify real product behavior, and record delivery evidence according to project conventions. Review includes uncommitted changes. Delivery includes commit and push, preserving unrelated changes and reporting incomplete publication. The original TDD and code-review steps remain.
+  Dependency lookup supports both the categorized source checkout and flat skills CLI installations.
 - `skills/engineering/to-spec/SKILL.md`: capture agreed acceptance flows, representative data, expected results, design references, and verification methods before implementation.
 - `skills/engineering/to-tickets/SKILL.md`: carry applicable acceptance flows and design references into ticket verification criteria.
 - `skills/engineering/code-review/SKILL.md`: add explicit working-tree review, including staged, unstaged, and in-scope untracked files, plus initial repositories without a commit. Default committed review remains.

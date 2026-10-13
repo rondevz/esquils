@@ -9,14 +9,14 @@ The Esquils entry point for project setup. Delegate tracker and domain-document 
 
 ## Bundled skill
 
-Use [setup-matt-pocock-skills](../engineering/setup-matt-pocock-skills/SKILL.md), imported from [mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/engineering/setup-matt-pocock-skills).
+Use `setup-matt-pocock-skills`, imported from [mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/engineering/setup-matt-pocock-skills).
 
-Use this repository's copy and its supporting resources, not an unrelated globally installed version. Resolve dependencies on other Matt Pocock skills from the bundled catalog when needed. If a required bundled resource is missing, report the missing path and stop rather than fabricating its behavior or installing a replacement automatically.
+Use the Esquils copy and its supporting resources. Locate it by name in the harness's skill catalog when available. For direct reads, resolve this skill's actual directory, following symlinks: the setup is at `../engineering/setup-matt-pocock-skills/SKILL.md` in a checkout or `../setup-matt-pocock-skills/SKILL.md` in a flat CLI installation. Other dependencies are siblings in the flat installation or under their source category in the checkout. Resolve each skill's own resources from its actual directory. If a required skill is missing, report the dependency rather than fabricating its behavior or installing a replacement automatically.
 
 ## Run
 
 1. Identify the target project from the user's request or current working directory. If unclear, ask which project to configure. The Esquils skill directory is not the target unless the user explicitly chooses it.
-2. Load the bundled `setup-matt-pocock-skills` using the harness's skill mechanism when it can target this copy. Otherwise read the linked `SKILL.md` and follow it directly, resolving supporting resources relative to that skill's directory.
+2. Load the Esquils `setup-matt-pocock-skills` using the lookup above and the harness's skill mechanism when it can target this copy. Otherwise read its `SKILL.md` and follow it directly.
 3. Let that skill inspect the project, resolve its configuration choices, and write its configuration. Preserve existing user authorization and decisions; do not ask the same questions again in this wrapper.
 4. Handle the optional technology context below. Skip questions already answered by the user or project documentation.
 5. Report the actual result and the configuration files created or updated. If setup is incomplete, state the missing dependency, input, or failed operation rather than reporting success.
