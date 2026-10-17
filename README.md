@@ -62,7 +62,7 @@ You agree on observable success before implementation: starting state, actions, 
 
 Work one ticket at a time for the first trial. If implementation invalidates a shared decision, return that question to `architect` and update affected plans. After integration, verify the complete journey across tickets and views. A push alone does not establish integration, and missing or failing required checks leave delivery unverified.
 
-Browse the [skills](skills/) for details. Source revisions, licenses, and local adaptations are recorded in [UPSTREAM.md](UPSTREAM.md).
+Browse the [skills](skills/) for details. Browser execution and readiness skills live in [web](skills/web/README.md). Source revisions, licenses, and local adaptations are recorded in [UPSTREAM.md](UPSTREAM.md).
 
 ## Inspiration and references
 

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Verification Preflight"
+  short_description: "Establish a working path to browser verification"

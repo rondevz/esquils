@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 Implement the work described by the user in the spec or tickets.
 
-Load dependent skills by name from the Esquils catalog when available. For direct reads, resolve this skill's actual directory, following symlinks. In a flat CLI installation, dependencies are at `../<skill-name>/SKILL.md`. In the source checkout, engineering dependencies are also siblings; `explorer` and `manuvra` are at `../../<skill-name>/SKILL.md`. Resolve each dependency's own resources from its actual directory. Report a missing required dependency rather than silently omitting its step.
+Load dependent skills by name from the Esquils catalog when available. For direct reads, resolve this skill's actual directory, following symlinks. In a flat CLI installation, dependencies are at `../<skill-name>/SKILL.md`. In the source checkout, engineering dependencies are also siblings; `explorer` and `manuvra` are at `../../<skill-name>/SKILL.md`, and `verification-preflight` is at `../../web/verification-preflight/SKILL.md`. Resolve each dependency's own resources from its actual directory. Report a missing required dependency rather than silently omitting its step.
 
 If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If the reference is ambiguous, ask.
 
@@ -23,6 +23,8 @@ Use the acceptance flows agreed in the ticket or spec. If expected results are m
 Call the Skill tool with "tdd" where possible, at pre-agreed seams.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+
+Before browser acceptance that depends on local services, use the bundled `verification-preflight` skill to establish a working path to the real app and its fixture. Reuse current readiness evidence across agents and resumed sessions.
 
 Exercise the agreed acceptance flows against the real product using the project's existing verification tools. For UI work, drive the relevant states and compare them with the chosen design and neighboring views. Check persistence with a reload or subsequent read when required. An agent-driven walkthrough provides observed evidence; it is not automatically a repeatable test suite. Do not introduce a new testing dependency without the user's choice.
 
