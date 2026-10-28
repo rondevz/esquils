@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 Implement the work described by the user in the spec or tickets.
 
-Load dependent skills by name from the Esquils catalog when available. For direct reads, resolve this skill's actual directory, following symlinks. In a flat CLI installation, dependencies are at `../<skill-name>/SKILL.md`. In the source checkout, engineering dependencies are also siblings; `explorer` and `manuvra` are at `../../<skill-name>/SKILL.md`, and `verification-preflight` is at `../../web/verification-preflight/SKILL.md`. Resolve each dependency's own resources from its actual directory. Report a missing required dependency rather than silently omitting its step.
+Load dependent skills by name from the Esquils catalog when available. For direct reads, resolve this skill's actual directory, following symlinks. In a flat CLI installation, dependencies are at `../<skill-name>/SKILL.md`. In the source checkout, engineering dependencies are also siblings; `explorer` and `manuvra` are at `../../<skill-name>/SKILL.md`, and web dependencies are at `../../web/<skill-name>/SKILL.md`. Resolve each dependency's own resources from its actual directory. Report a missing required dependency rather than silently omitting its step.
 
 If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If the reference is ambiguous, ask.
 
@@ -24,7 +24,7 @@ Call the Skill tool with "tdd" where possible, at pre-agreed seams.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 
-Before browser acceptance that depends on local services, use the bundled `verification-preflight` skill to establish a working path to the real app and its fixture. Reuse current readiness evidence across agents and resumed sessions.
+Before browser acceptance that depends on local services, use the bundled `browser-preflight` skill to establish a working path to the real app and its fixture. Reuse current readiness evidence across agents and resumed sessions.
 
 Exercise the agreed acceptance flows against the real product using the project's existing verification tools. For UI work, drive the relevant states and compare them with the chosen design and neighboring views. Check persistence with a reload or subsequent read when required. An agent-driven walkthrough provides observed evidence; it is not automatically a repeatable test suite. Do not introduce a new testing dependency without the user's choice.
 
@@ -41,3 +41,5 @@ After checks pass and review findings are resolved, commit the changes belonging
 If the branch has no upstream, use the project's configured remote and establish tracking when the destination is unambiguous. If no remote is configured or the destination is unclear, report the missing destination instead of guessing. Report commit and push results separately; a failed push leaves delivery incomplete.
 
 Finish the requested ticket. Do not automatically start subsequent tickets unless the user authorized a batch.
+
+In the final handoff for work with browser-visible behavior, recommend `verify-browser` as the next step after implementation and review. Include a ready-to-use invocation with the ticket/spec reference and known application URL, and carry forward any readiness evidence and remaining coverage gaps. This recommendation does not automatically invoke the skill or replace required acceptance checks above. Report implementation, review, and browser-verification status separately; pending browser verification must remain explicit.

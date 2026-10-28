@@ -56,7 +56,7 @@ cd /home/ronald/code/esquils
 python3 scripts/link-global-skills.py
 ```
 
-El script enlaza todos los skills del repositorio en `~/.agents/skills` y `~/.claude/skills`. Conserva las entradas existentes e informa de los conflictos. Abre una sesión nueva del agente para que descubra el skill `verification-preflight`, ubicado en `skills/web/`.
+El script enlaza todos los skills del repositorio en `~/.agents/skills` y `~/.claude/skills`. Conserva las entradas existentes e informa de los conflictos. Abre una sesión nueva del agente para que descubra el skill `browser-preflight`, ubicado en `skills/web/`.
 
 ## 4. Comprobar Granolitos
 
@@ -77,7 +77,7 @@ Para validar formularios que crean o modifican datos, utiliza una instancia con 
 
 Puedes pedirlo así:
 
-> Usa $verification-preflight y verifica este recorrido en el navegador: [pasos y resultado esperado]. Reutiliza el entorno disponible y captura evidencia del resultado.
+> Usa $verify-browser y verifica este recorrido en el navegador: [pasos y resultado esperado]. Reutiliza el entorno disponible y captura evidencia del resultado. La skill usa browser-preflight para preparar el acceso cuando hace falta.
 
 La preparación de un entorno ya instalado tiene un presupuesto inicial de dos minutos. Si falla, el agente debe identificar la parte que bloquea el acceso y conservar lo comprobado. La instalación inicial y las reparaciones mayores se tratan como trabajo de entorno separado. Una vez listo, continúa directamente con el recorrido autorizado.
 

@@ -10,13 +10,17 @@ Matt Pocock's copyright and MIT license are preserved in [third_party/mattpocock
 
 `skills/inspect` is adapted from instructions supplied by the user. `skills/super-setup` wraps the bundled Matt setup and provides optional technology guidance. `skills/explorer` prepares implementation context for a ticket. None of these directories is part of the imported snapshot.
 
-`skills/web/verification-preflight` is authored for Esquils: select a prepared browser executor, establish browser-verification readiness, bound environment recovery, and carry evidence across agents and resumed sessions. Ordinary journeys prefer an available Playwright CLI without requiring a new test suite. It is not part of an imported snapshot.
+`skills/web/browser-preflight` is authored for Esquils: select a prepared browser executor, establish browser-verification readiness, bound environment recovery, and carry evidence across agents and resumed sessions. Ordinary journeys prefer an available Playwright CLI without requiring a new test suite. It is not part of an imported snapshot.
+Renamed from verification-preflight. Its fast path reuses session and fixture evidence, confirms the starting screen, and diagnoses only missing readiness within a 60-second preparation budget for configured environments.
 
 ## Local adaptations
 
+`skills/web/verify-browser` is authored for Esquils: verify agreed stories through the real browser after review, prefer Playwright, reuse browser-preflight, and retain per-scenario acceptance evidence. It is not part of an imported snapshot.
+
 - `skills/engineering/implement/SKILL.md`: run explorer in the implementation checkout before edits, use agreed acceptance flows, verify real product behavior, and record delivery evidence according to project conventions. Review includes uncommitted changes. Delivery includes commit and push, preserving unrelated changes and reporting incomplete publication. The original TDD and code-review steps remain.
   Dependency lookup supports both the categorized source checkout and flat skills CLI installations.
-  Browser acceptance uses verification-preflight to establish readiness before driving the journey.
+  Browser acceptance uses browser-preflight to establish readiness before driving the journey.
+  The final handoff for UI work recommends verify-browser after review, with invocation context and explicit coverage gaps, without automatically invoking it.
 - `skills/engineering/to-spec/SKILL.md`: capture agreed acceptance flows, representative data, expected results, design references, and verification methods before implementation. Consume the agreed architecture brief and preserve its shared decisions; unresolved shared design does not become ready work.
 - `skills/engineering/to-tickets/SKILL.md`: carry applicable acceptance flows and design references into ticket verification criteria. Include governing architecture references and dependencies between shared contracts or patterns.
 - `skills/engineering/code-review/SKILL.md`: add explicit working-tree review, including staged, unstaged, and in-scope untracked files, plus initial repositories without a commit. Default committed review remains.

@@ -1,5 +1,7 @@
 # Esquils
 
+**Version [0.0.1](https://github.com/rondevz/esquils/releases/tag/v0.0.1)** — initial experimental release.
+
 An experimental collection of skills for AI coding agents. “Esquils” is a playful Spanish take on “skills.” It builds on Matt Pocock's skills and takes inspiration from the TaeControl methodology by [guetteman](https://github.com/guetteman).
 
 The goal is a more consistent workflow connecting product decisions, design, implementation, and verification. **All skills, including imported ones, are subject to changes and modifications.**
@@ -41,7 +43,7 @@ flowchart TD
     T --> M["implement: work on one ticket"]
     I --> M
     D --> M
-    M -->|"After the deliveries are integrated"| V["Verify the complete feature journey"]
+    M -->|"After the deliveries are integrated"| V["verify-browser: verify the complete feature journey"]
     M -.->|"Next ticket, when requested"| M
     M -.->|"New evidence invalidates shared design"| A
 ```
@@ -58,11 +60,23 @@ Call [implement](skills/engineering/implement/SKILL.md) with the ticket referenc
 
 **explorer → resolve blocking questions → TDD → checks and agreed acceptance flows → code-review → record evidence → commit and push.**
 
-You agree on observable success before implementation: starting state, actions, and expected results. The agent gathers code context through [explorer](skills/explorer/SKILL.md), follows accepted decisions, and verifies those results. Use the project's selected tools; [Manuvra](skills/manuvra/SKILL.md) is an optional browser-journey executor with separate runtime setup.
+You agree on observable success before implementation: starting state, actions, and expected results. The agent gathers code context through [explorer](skills/explorer/SKILL.md), follows accepted decisions, and verifies those results. At the end of UI work, `implement` recommends `verify-browser` as a follow-up after review; it does not invoke it automatically.
 
 Work one ticket at a time for the first trial. If implementation invalidates a shared decision, return that question to `architect` and update affected plans. After integration, verify the complete journey across tickets and views. A push alone does not establish integration, and missing or failing required checks leave delivery unverified.
 
 Browse the [skills](skills/) for details. Browser execution and readiness skills live in [web](skills/web/README.md). Source revisions, licenses, and local adaptations are recorded in [UPSTREAM.md](UPSTREAM.md).
+
+### Verify browser functionality
+
+Use [verify-browser](skills/web/verify-browser/SKILL.md) after implementation and review, or after integrating several tickets, to check that user stories and use cases work in the real application. Supply the ticket or spec, application URL, and agreed starting data. For example:
+
+> Use verify-browser to verify ticket #42 at http://localhost:3000 against its acceptance criteria, using the project's isolated test fixture.
+
+The skill uses Playwright CLI by default, exercises the agreed flows, checks outcomes and persistence where required, and records each scenario as passed, failed, or blocked with evidence. Required failed or blocked scenarios leave browser acceptance incomplete. This walkthrough does not create a permanent Playwright Test suite.
+
+[browser-preflight](skills/web/browser-preflight/SKILL.md) prepares access when needed: it reuses the URL, session, and fixture, then confirms the journey's starting screen. It diagnoses infrastructure only when readiness is missing, with a 60-second preparation budget for configured environments. Cold starts, installation, and infrastructure repair are separate setup work. It was previously named `verification-preflight`.
+
+Install the browser executor separately using the [system setup guide](skills/web/browser-preflight/references/setup.md). Keep the project's launch command and test-user access recipe documented so each run can reuse them. Project and harness browser requirements take precedence; [Manuvra](skills/manuvra/SKILL.md) is an optional alternative with separate runtime setup.
 
 ## Inspiration and references
 

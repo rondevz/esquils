@@ -1,13 +1,21 @@
 ---
-name: verification-preflight
+name: browser-preflight
 description: "Prepare quick browser verification with a ready executor, preferring Playwright CLI for ordinary agent-driven journeys. Use before ad hoc acceptance flows or when browser access fails; bound environment recovery and preserve reusable readiness evidence."
 ---
 
-# Verification Preflight
+# Browser Preflight
 
 Find one working path from the selected browser to the real application and its isolated fixture. Return that path to the acceptance workflow; readiness alone does not verify the feature.
 
-## Establish the boundary
+## Fast path
+
+Start with the caller's URL, browser/session handle, and fixture record. Reuse them when the application instance, data target, actor, and browser session still match. Confirm only what changed: a code edit alone does not require rediscovering ports, reinstalling the executor, or rechecking a known fixture's isolation. Revalidate after a service restart, session loss, changed data configuration, or evidence of stale assets.
+
+Open the known URL, or inspect the existing browser tab, and reach the journey's starting state. A rendered, usable screen with the expected fixture actor can establish several readiness boundaries at once. Combine that observation with the existing fixture-isolation record and return ready immediately. For read-only journeys without a data fixture, record that isolation is not applicable. Before a mutating journey, establish the actual data target if no trustworthy fixture record exists.
+
+Treat the readiness boundaries below as diagnostic questions, not a checklist of separate commands. Run shell, health, database, network, or asset probes only to resolve a missing fact or a failed browser observation. Load executor instructions only when the commands are unfamiliar or fail. Reuse known commands and session handles across scenarios.
+
+## When preparation or recovery is needed
 
 Reuse the agreed journey, expected results, project launch instructions, and selected browser. Identify the URL resolver when the project provides one. Keep tool selection subordinate to the current harness and the user's choices.
 
@@ -17,7 +25,7 @@ For explicitly requested first-time setup, use the Spanish [system setup guide](
 
 Record the start time, existing services, and which processes, profiles, and datasets belong to this run. Assign one environment owner when work is delegated. A parent and child should share readiness evidence rather than provision competing stacks. An agent-scoped browser error may require moving verification to the active parent, not changing the application.
 
-Use a short initial timebox: two minutes for an existing local setup unless the task or user supplies another budget. Use one preferred executor and at most one permitted fallback within that same budget. Each retry should test a changed condition or distinguish a hypothesis. After two equivalent failures at one boundary, follow the permitted fallback or report that boundary as blocked. A new URL spelling, executor, or browser profile does not reset the budget. First-time installation and setup need their own explicit scope rather than consuming the walkthrough.
+Use a 60-second total preparation budget for an existing local setup unless the task or user supplies another budget; this is a ceiling, not a wait. Start timing on entry, including the fast path. Bound individual probes by the remaining budget and prefer observable readiness over fixed sleeps. Use one preferred executor and at most one permitted fallback within that same budget. Each retry should test a changed condition or distinguish a hypothesis. After two equivalent failures at one boundary, follow the permitted fallback or report that boundary as blocked. A new URL spelling, executor, or browser profile does not reset the budget. A longer cold start, first-time installation, or infrastructure repair is separate environment work: report the exact prerequisite and continue only within an explicitly scoped setup budget.
 
 ## Prove readiness
 
@@ -48,6 +56,8 @@ If recovery would require installing dependencies, inventing a browser driver or
 ## Handoff and cleanup
 
 Return a compact readiness record:
+
+On the fast path, update the caller's existing record with the confirming observation and elapsed time; omit unchanged setup history. Produce the fuller record below only for new setup, recovery, or a blocked path.
 
 - **Ready or blocked:** exact boundary and a representative successful probe or raw error.
 - **Execution path:** URL, service context, browser session/profile handle, fixture identity, and secret references where needed.
