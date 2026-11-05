@@ -15,9 +15,14 @@ Renamed from verification-preflight. Its fast path reuses session and fixture ev
 
 ## Local adaptations
 
-`skills/web/verify-browser` is authored for Esquils: verify agreed stories through the real browser after review, prefer Playwright, reuse browser-preflight, and retain per-scenario acceptance evidence. It is not part of an imported snapshot.
+`skills/game/prototype-game`, `skills/game/godot-preflight` and `skills/game/verify-game` are authored for Esquils, not imported snapshots. They add Godot-native experiments, capability-specific execution readiness, runtime acceptance and distinct playtest observations. `skills/game/README.md` documents the guided flow and its use; the runtime reference links official Godot documentation rather than supplying an engine or optional automation tool.
 
-- `skills/engineering/implement/SKILL.md`: run explorer in the implementation checkout before edits, use agreed acceptance flows, verify real product behavior, and record delivery evidence according to project conventions. Review includes uncommitted changes. Delivery includes commit and push, preserving unrelated changes and reporting incomplete publication. The original TDD and code-review steps remain.
+- Godot profile: local adaptations to `super-setup` and `explorer` record engine/scene/asset context; `to-spec` and `to-tickets` carry playable outcomes and separate runtime criteria from experience hypotheses. `prototype` routes engine experiments to `prototype-game`; `implement` and `implement-spec` select applicable engine checks and coordinate shared resource edits. `ask-matt` routes Godot requests to those skills. Browser behavior retains its existing verification route. The imported revision/hash manifests remain the original baselines.
+
+`skills/web/verify-browser` is authored for Esquils: verify agreed stories through the real browser after review, prefer Playwright, reuse browser-preflight, and retain per-scenario acceptance evidence. It is not part of an imported snapshot.
+It derives scenarios and prepares minimal synthetic fixtures through project-native tooling, then reports the ticket reference and each case's observed outcome in the final handoff.
+
+- `skills/engineering/implement/SKILL.md`: run explorer in the implementation checkout before edits, use agreed acceptance flows, verify real product behavior, and record delivery evidence according to project conventions. Review includes uncommitted changes. Delivery includes commit and push, preserving unrelated changes and reporting incomplete publication. Rule-focused TDD and code-review remain, with applicable engine checks selected for Godot rather than assuming browser tooling or a new test framework.
   Dependency lookup supports both the categorized source checkout and flat skills CLI installations.
   Browser acceptance uses browser-preflight to establish readiness before driving the journey.
   The final handoff for UI work recommends verify-browser after review, with invocation context and explicit coverage gaps, without automatically invoking it.

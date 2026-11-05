@@ -23,6 +23,8 @@ If the ticket cannot be identified, ask for the missing reference. Do not assume
 4. Find reusable components, services, and at least one comparable implementation when available. Explain which parts to mirror, which differences are intentional, and what genuinely needs new code. Do not copy an existing inconsistency merely because it exists.
 5. Locate how to launch the product, seed representative data, and run relevant tests and checks. Map each acceptance example to a test or an observed product journey, with the starting state, action, expected result, and necessary evidence. Report missing execution capability rather than pretending the flow is verified.
 
+For Godot work, inspect the affected scenes/resources, node ownership and signals, input actions, coordinate spaces, collision layers, navigation and animation dependencies that matter to the ticket. Carry the exact engine version, project root, renderer/platform when relevant, asset source/import contract and scene/reset recipe from project guidance. Distinguish headless rules, rendered behavior, desktop input and player experience in the verification map. A missing optional capture tool does not block a rule test that can run independently.
+
 Keep exploration proportional to uncertainty and impact. Reuse a current inspection report, but revalidate the references and dependency code that govern this implementation. Cite facts with file and line references or exact artifact links; label inferences and unknowns.
 
 ## Return implementation context

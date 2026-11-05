@@ -26,7 +26,7 @@ The script links this checkout directly for the three agents, preserving existin
 
 ## Workflow
 
-Run [super-setup](skills/super-setup/SKILL.md) once in the target project, then choose the route that fits your work. This is a guided workflow: invoke the next skill when ready. It does not automatically execute the whole backlog.
+Run [super-setup](skills/super-setup/SKILL.md) once in the target project, then choose the route that fits your work. This is a guided workflow: invoke the next skill when ready. It does not automatically execute the whole backlog. For Godot gameplay experiments, assets and runtime verification, follow the [game development guide](skills/game/README.md); browser workflows keep the [web profile](skills/web/README.md).
 
 ```mermaid
 flowchart TD
@@ -43,7 +43,9 @@ flowchart TD
     T --> M["implement: work on one ticket"]
     I --> M
     D --> M
-    M -->|"After the deliveries are integrated"| V["verify-browser: verify the complete feature journey"]
+    M -->|"Reviewed or integrated journey"| V{"Verification target"}
+    V -->|"Browser"| VB["verify-browser"]
+    V -->|"Godot runtime"| VG["verify-game"]
     M -.->|"Next ticket, when requested"| M
     M -.->|"New evidence invalidates shared design"| A
 ```
@@ -58,13 +60,21 @@ flowchart TD
 
 Call [implement](skills/engineering/implement/SKILL.md) with the ticket reference. It runs this sequence internally:
 
-**explorer → resolve blocking questions → TDD → checks and agreed acceptance flows → code-review → record evidence → commit and push.**
+**explorer → resolve blocking questions → applicable tests/TDD → checks and agreed acceptance flows → code-review → record evidence → commit and push.**
 
-You agree on observable success before implementation: starting state, actions, and expected results. The agent gathers code context through [explorer](skills/explorer/SKILL.md), follows accepted decisions, and verifies those results. At the end of UI work, `implement` recommends `verify-browser` as a follow-up after review; it does not invoke it automatically.
+You agree on observable success before implementation: starting state, actions, and expected results. The agent gathers code context through [explorer](skills/explorer/SKILL.md), follows accepted decisions, and verifies those results. After review, `implement` recommends `verify-browser` for browser behavior or `verify-game` for Godot runtime behavior; it does not invoke either automatically. Required acceptance flows still belong to delivery, and their gaps remain explicit.
 
 Work one ticket at a time for the first trial. If implementation invalidates a shared decision, return that question to `architect` and update affected plans. After integration, verify the complete journey across tickets and views. A push alone does not establish integration, and missing or failing required checks leave delivery unverified.
 
-Browse the [skills](skills/) for details. Browser execution and readiness skills live in [web](skills/web/README.md). Source revisions, licenses, and local adaptations are recorded in [UPSTREAM.md](UPSTREAM.md).
+Browse the [skills](skills/) for details. Execution profiles live in [web](skills/web/README.md) and [game](skills/game/README.md). Source revisions, licenses, and local adaptations are recorded in [UPSTREAM.md](UPSTREAM.md).
+
+### Develop a Godot game
+
+Use [prototype-game](skills/game/prototype-game/SKILL.md) to explore an uncertain mechanic in the engine, [godot-preflight](skills/game/godot-preflight/SKILL.md) to prepare the required execution capabilities, and [verify-game](skills/game/verify-game/SKILL.md) to check agreed behavior in a scene or build. Chosen behavior continues through the shared design/spec/ticket/implementation flow.
+
+> Use prototype-game to explore bow tension in a small target room. Then use the result to design one playable delivery.
+
+The [game development guide](skills/game/README.md) contains the full diagram, installation/update instructions, invocation examples, asset integration and playtest protocol. Runtime acceptance and player-experience conclusions are recorded separately. Godot and optional execution tools require their own setup.
 
 ### Verify browser functionality
 
@@ -72,7 +82,7 @@ Use [verify-browser](skills/web/verify-browser/SKILL.md) after implementation an
 
 > Use verify-browser to verify ticket #42 at http://localhost:3000 against its acceptance criteria, using the project's isolated test fixture.
 
-The skill uses Playwright CLI by default, exercises the agreed flows, checks outcomes and persistence where required, and records each scenario as passed, failed, or blocked with evidence. Required failed or blocked scenarios leave browser acceptance incomplete. This walkthrough does not create a permanent Playwright Test suite.
+The skill uses Playwright CLI by default, derives scenarios from agreed behavior, and proactively prepares missing synthetic data using the project's factories, seeders, APIs, or other native tooling in an isolated environment. It exercises the flows, checks outcomes and persistence where required, and closes with the ticket reference and a summary of every passed, failed, or blocked case, linked to evidence. Required failed or blocked scenarios leave browser acceptance incomplete. This walkthrough does not create a permanent Playwright Test suite.
 
 [browser-preflight](skills/web/browser-preflight/SKILL.md) prepares access when needed: it reuses the URL, session, and fixture, then confirms the journey's starting screen. It diagnoses infrastructure only when readiness is missing, with a 60-second preparation budget for configured environments. Cold starts, installation, and infrastructure repair are separate setup work. It was previously named `verification-preflight`.
 

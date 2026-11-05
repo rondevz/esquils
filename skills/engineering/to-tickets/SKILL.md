@@ -30,7 +30,7 @@ Break the work into **tracer bullet** tickets.
 
 <vertical-slice-rules>
 
-- Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests): vertical, NOT a horizontal slice of one layer
+- Each slice cuts a narrow but COMPLETE observable path through the relevant parts of the product (for example schema/API/UI in a web app, or input/scene/rules/feedback in a game)
 - A completed slice is demoable or verifiable on its own
 - Each slice is sized to fit in a single fresh context window
 - Any prefactoring should be done first
@@ -40,6 +40,8 @@ Break the work into **tracer bullet** tickets.
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
 Carry the applicable acceptance flows from the spec into each ticket by reference or a concise description: starting state, actions, expected results, and verification method. Include design references for visual or interaction criteria. If a ticket introduces a new completion-defining flow, settle its expected behavior with the user during the breakdown review. Do not defer defining success until implementation finishes.
+
+For Godot, prefer a playable moment such as distracting a guard to cross a doorway over a layer-only ticket such as "implement noise system." Carry the scene/reset recipe and distinguish runtime contracts from playtest questions. Asset work can be its own delivery when its observable result includes integration or reimport behavior. Declare dependencies and editing ownership for shared scenes, resources, rigs and binary assets before suggesting concurrent work. An unknown gameplay choice is an experiment/design dependency rather than a silently ready feature.
 
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
 

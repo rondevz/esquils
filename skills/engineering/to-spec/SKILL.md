@@ -20,6 +20,8 @@ Check with the user that these seams match their expectations.
 
 Define the acceptance flows with the user before implementation: starting state and representative data, action or sequence of actions, expected observable result, and the verification method. Reuse previously agreed examples without asking again. Cover relevant failures and visual or interaction states, not just the happy path. Mark whether each flow is a repeatable test, an agent-driven product walkthrough, or a visual comparison. Record missing execution capability separately from undecided behavior.
 
+For Godot features, carry any gameplay-experiment result and separate chosen rules from unresolved experience hypotheses. An unresolved mechanic can return to `prototype-game`; it is not a ready implementation contract. Describe scene/build, resettable starting state, input/actions, observable outcome and agreed tolerances where physics or timing matters. Mark which cases need headless execution, rendering, desktop input or a player playtest. For asset deliveries, include only applicable import/reimport, material, skeleton, animation or collision contracts. Keep the spec proportional to the bounded playable outcome rather than enumerating a speculative whole game.
+
 3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
 
 <spec-template>
@@ -34,7 +36,7 @@ The solution to the problem, from the user's perspective.
 
 ## User Stories
 
-A LONG, numbered list of user stories. Each user story should be in the format of:
+A numbered list of user stories covering the agreed scope. Each user story should be in the format of:
 
 1. As an <actor>, I want a <feature>, so that <benefit>
 
@@ -42,7 +44,7 @@ A LONG, numbered list of user stories. Each user story should be in the format o
 1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
 </user-story-example>
 
-This list of user stories should be extremely extensive and cover all aspects of the feature.
+Cover the agreed feature, including relevant failures and interaction states. A bounded prototype-to-feature handoff can use a short list.
 
 ## Implementation Decisions
 

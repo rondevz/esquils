@@ -20,11 +20,13 @@ Resolve blocking product or shared architecture questions before implementing de
 
 Use the acceptance flows agreed in the ticket or spec. If expected results are missing or materially ambiguous, clarify them with the user before dependent implementation; do not invent success criteria after seeing the solution.
 
-Call the Skill tool with "tdd" where possible, at pre-agreed seams.
+Call the Skill tool with "tdd" where possible, at pre-agreed seams. For Godot, select meaningful rule tests or engine-scene checks according to the acceptance contract. Inventory, rewards and state transitions can have automated regressions; control comfort and enjoyment require play observations. Preserve any required project test suite rather than treating all gameplay as untestable.
 
-Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+Run the project's applicable type/import checks regularly, focused tests during implementation, and its required suite at the end. Use the engine's actual commands and existing harness for Godot; successful import or startup alone does not establish runtime acceptance. A test framework or MCP is an optional selected tool, not an implicit dependency to install.
 
 Before browser acceptance that depends on local services, use the bundled `browser-preflight` skill to establish a working path to the real app and its fixture. Reuse current readiness evidence across agents and resumed sessions.
+
+For Godot runtime acceptance, use `godot-preflight` instead of browser preparation. Resolve it by catalog name, or `../../game/godot-preflight/SKILL.md` from this resolved source directory and `../godot-preflight/SKILL.md` in a flat installation. Carry its readiness, scene/reset recipe and capability gaps into the agreed checks. Use engine scenes or builds for gameplay; a web page or screenshot is only evidence for what it actually exercises. For asset changes, preserve source/import ownership and exercise reimport when required. Keep concurrent edits to the same scene, resource or binary coordinated.
 
 Exercise the agreed acceptance flows against the real product using the project's existing verification tools. For UI work, drive the relevant states and compare them with the chosen design and neighboring views. Check persistence with a reload or subsequent read when required. An agent-driven walkthrough provides observed evidence; it is not automatically a repeatable test suite. Do not introduce a new testing dependency without the user's choice.
 
@@ -43,3 +45,5 @@ If the branch has no upstream, use the project's configured remote and establish
 Finish the requested ticket. Do not automatically start subsequent tickets unless the user authorized a batch.
 
 In the final handoff for work with browser-visible behavior, recommend `verify-browser` as the next step after implementation and review. Include a ready-to-use invocation with the ticket/spec reference and known application URL, and carry forward any readiness evidence and remaining coverage gaps. This recommendation does not automatically invoke the skill or replace required acceptance checks above. Report implementation, review, and browser-verification status separately; pending browser verification must remain explicit.
+
+For Godot work, recommend `verify-game` after review instead, with the ticket/spec, project and scene/build, reset recipe and relevant readiness evidence. Resolve it by catalog name, or `../../game/verify-game/SKILL.md` in this checkout and `../verify-game/SKILL.md` in a flat installation. When the feature also has a browser surface, route that surface to browser verification. Report runtime acceptance, player playtest when required, review and integration separately. Pending playtest remains explicit; it does not erase passed technical cases or establish a favorable design verdict.

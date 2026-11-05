@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like.
+description: Build a throwaway prototype to answer a design question about state, interaction or UI. Route Godot gameplay and game-feel experiments to prototype-game.
 ---
 
 # Prototype
@@ -8,6 +8,8 @@ description: Build a throwaway prototype to answer a design question. Use when t
 A prototype is **throwaway code that answers a question**. The question decides the shape.
 
 ## Pick a branch
+
+For a Godot gameplay, control or game-feel question, use `prototype-game` before selecting the web branches below. Locate it by catalog name; for a direct read, resolve this directory through symlinks and use `../../game/prototype-game/SKILL.md` in the source checkout or `../prototype-game/SKILL.md` in a flat installation. That skill owns the engine experiment, playtest and decision record; keep the existing HTML/UI branches for questions they can actually answer.
 
 Identify which question is being answered, using the user's prompt, the surrounding code, or by asking if the user is around:
 

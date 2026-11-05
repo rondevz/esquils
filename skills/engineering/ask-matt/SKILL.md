@@ -12,6 +12,8 @@ Before stating what a skill does or recommending a step be skipped, read that sk
 
 A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.
 
+For Godot work, read `prototype-game` when the question is about a mechanic or game feel, `godot-preflight` when runtime readiness is missing, and `verify-game` for acceptance in a real scene/build. Resolve them by catalog name; in this source checkout they are under `../../game/<name>/SKILL.md` relative to this resolved directory, or `../<name>/SKILL.md` in a flat installation. Use this profile in the main flow below: engine experiments replace the HTML prototype detour, and checks follow the game's agreed runtime/playtest contract rather than assuming browser execution or TDD for tuning. Spec/tickets still follow chosen behavior; a playtest with no conclusion is not a ready feature decision.
+
 ## The main flow: idea → ship
 
 The route most work travels. You have an idea and want it built.
