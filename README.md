@@ -1,6 +1,6 @@
 # Esquils
 
-**Version [0.0.1](https://github.com/rondevz/esquils/releases/tag/v0.0.1)** — initial experimental release.
+**Version [0.0.2](https://github.com/rondevz/esquils/releases/tag/v0.0.2)** — Godot gameplay workflow and runtime verification.
 
 An experimental collection of skills for AI coding agents. “Esquils” is a playful Spanish take on “skills.” It builds on Matt Pocock's skills and takes inspiration from the TaeControl methodology by [guetteman](https://github.com/guetteman).
 
